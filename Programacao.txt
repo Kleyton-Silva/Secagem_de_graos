@@ -1,0 +1,57 @@
+Controle de H no discreto
+
+Ler (h1, p, ve)
+e1(1)=0
+e2(1)=0
+p(1)=p
+ve(1)= ve
+uff1(1)= -3.99*p
+uff2(1)= -0,8833*ve 
+u1(1)= un - uff1(1)
+u2(1)= h1 - uff2(1)
+
+for k=2:1:Tfinal
+
+	Ler (h2(k), r(k))
+	e2(k)= r(k)-h2(k)
+	u2(k)= u2(k-1)+ 0.66*e2(k) - 0.54*e2(k-1)
+	uff2(k)= 0.9417*uff2(k-1) - 0.06*ve(k) + 0.009*ve(k) 
+	ri= u2(k)
+
+
+	for n= 2:1:11 
+
+		Ler (h1(n))
+		e1(n)= ri - h1(n)
+		u1(n)= u(n-1) + 0.875*e2(n) - 0.725*e(n-1)
+		uff1(n)= -3.99*p(n)
+		up(n)= u1(n) + uff1(n)
+		Enviar (u1(n), up(n))
+	end
+	e1(1) = e1(11)
+	u1(1) = u1(11)
+end
+
+Controle de L no discreto
+
+Ler(l1)
+e1(1)= 0
+e2(2)= 0
+u1(1)= Umanual
+u2(1)= l1
+
+for k= 2:1:Tfinal
+	Ler(l2(k), r(k))
+	e2(k)= l2(k) - r(k)
+	u2(k)= 0.99*e2(k) - 0.908e2(k-1) + u2(k-1)
+	ri = u2(k)
+
+	for k= 2:1:11
+		Ler(l1(n))
+		e1(n) = ri - l1(n)
+		u1(n)= u1(n-1) + 3.058*e1(n-1) - 2.67*e1(n-1)
+		Enviar(u1(n))
+	end
+	e1(1)= e1(11)
+	u1(1)= u1(11)
+end
